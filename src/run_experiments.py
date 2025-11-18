@@ -20,8 +20,6 @@ from utils import (
     parse_json_string,
 )
 
-# Add parent directory to path to import from src
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from prompts import (
     get_chatgpt_prompt,
     get_optimizing_prompt,
@@ -279,12 +277,12 @@ def run_all_experiments(
 
     print(f"\n{'='*60}")
     print(
-        f"Running batch num {batch_num} with size {batch_size} experiments with optimization: {prompt_type}"
+        f"Running {run_type} batch num {batch_num} with size {batch_size} experiments with optimization: {prompt_type}"
     )
     print(f"{'='*60}")
 
     experiment_dir = os.path.join(
-        output_dir, f"{prompt_type}_{batch_num}_batch_queries"
+        output_dir, f"{prompt_type}_{run_type}_batch_{batch_num}_queries"
     )
     os.makedirs(experiment_dir, exist_ok=True)
 
@@ -301,7 +299,9 @@ def run_all_experiments(
         data = load_data(data_path)
 
         if run_type == "train":
-            query_ids = list(data.keys())[:1000]
+            start = batch_num * batch_size
+            end = start + batch_size
+            query_ids = list(data.keys())[start:end]
         else:
             query_ids = list(data.keys())[1000:]
 

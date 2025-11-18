@@ -521,14 +521,12 @@ def plot_across_epochs(start_epoch, end_epoch, folder):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot train/validation mean scores")
-    parser.add_argument(
-        "--method",
-        "-m",
-        type=str,
-        default="competitive",
-    )
+    parser.add_argument("--method", "-m", type=str, default="authoritative")
     parser.add_argument("--start", "-s", type=str, default="0")
     parser.add_argument("--end", "-e", type=str, default="0")
+    parser.add_argument(
+        "--folder", "-f", type=str, default="./results/prompt_opt_authoritative/"
+    )
 
     # parse and set variables for the rest of the script
     args = parser.parse_args()

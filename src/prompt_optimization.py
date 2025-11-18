@@ -375,6 +375,8 @@ def optimize_prompt(
 if __name__ == "__main__":
     import argparse
 
+    load_dotenv()
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--method",
