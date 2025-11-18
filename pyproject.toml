@@ -1,0 +1,16 @@
+[project]
+name = "clean-geo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "black>=25.11.0",
+    "isort>=7.0.0",
+    "matplotlib>=3.10.7",
+    "numpy>=2.3.5",
+    "openai>=2.8.1",
+    "pandas>=2.3.3",
+    "python-dotenv>=1.0.0",
+    "scipy>=1.16.3",
+]

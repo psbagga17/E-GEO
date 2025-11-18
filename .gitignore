@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# PyCache directories
+*/__pycache__/
+**/__pycache__/
+
+# MacOS files
+.DS_Store
+
+# Environment variables
+.env
