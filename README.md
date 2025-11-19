@@ -45,7 +45,7 @@ E-GEO/
     ├── run_experiments.py       # Batch processing, parallel execution, result logging
     ├── analysis.py              # Metrics, histograms, statistical summaries
     ├── utils.py                 # Helper functions
-    └── visualiser               # Graph plotting utilities
+    └── visualiser.py            # Graph plotting utilities
 ```
 
 ## Command-Line Flags
