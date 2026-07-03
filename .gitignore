@@ -1,3 +1,6 @@
+# Claude Code
+.claude/
+
 # Python-generated files
 __pycache__/
 *.py[oc]
@@ -18,3 +21,14 @@ wheels/
 
 # Environment variables
 .env
+
+*/method_a/
+multi_llm_data/
+
+archive/
+# HF dataset staging tree (uploaded to HuggingFace, never committed)
+hf_data/
+
+# Dataset + run artifacts — hosted on HuggingFace (psbagga17/E-GEO), pulled via `hf download`
+data/
+results/

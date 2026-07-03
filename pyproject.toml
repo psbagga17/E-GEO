@@ -1,13 +1,14 @@
 [project]
-name = "clean-geo"
+name = "e-geo"
 version = "0.1.0"
-description = "Add your description here"
+description = "E-GEO: a testbed for Generative Engine Optimization in e-commerce."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "black>=25.11.0",
-    "dotenv>=0.9.9",
+    "huggingface_hub>=0.34",
     "isort>=7.0.0",
+    "anthropic>=0.40.0",
     "llm-batch-helper>=0.4.0",
     "matplotlib>=3.10.7",
     "numpy>=2.3.5",
@@ -15,4 +16,5 @@ dependencies = [
     "pandas>=2.3.3",
     "python-dotenv>=1.0.0",
     "scipy>=1.16.3",
+    "statsmodels>=0.14",
 ]

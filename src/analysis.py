@@ -1,9 +1,12 @@
 import os
 
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import scipy.stats as stats
+import scipy.stats as sp_stats
 
 
 def load_results_from_csv(csv_path: str) -> pd.DataFrame:
@@ -27,18 +30,19 @@ def calculate_statistics(data: pd.DataFrame) -> dict:
     std = np.std(improvements)
 
     # Calculate 95% confidence interval
-    sem = stats.sem(improvements)
-    ci = stats.t.interval(0.95, len(improvements) - 1, loc=mean, scale=sem)
+    sem = sp_stats.sem(improvements)
+    ci = sp_stats.t.interval(0.95, len(improvements) - 1, loc=mean, scale=sem)
 
     # Count improvements vs degradations
     positive = np.sum(improvements > 0)
     negative = np.sum(improvements < 0)
     neutral = np.sum(improvements == 0)
 
-    return {
+    stats = {
         "mean": mean,
         "median": median,
         "std": std,
+        "standard_error": float(sem),
         "ci_lower": float(ci[0]),
         "ci_upper": float(ci[1]),
         "total": len(improvements),
@@ -48,6 +52,36 @@ def calculate_statistics(data: pd.DataFrame) -> dict:
         "improvement_rate": float(positive / len(improvements) * 100),
         "improvements": improvements.tolist(),
     }
+
+    if "optimized_product_is_questionable" in data.columns:
+        bs_col = data["optimized_product_is_questionable"].dropna()
+        bs_flagged_rewritten = int(bs_col.astype(str).str.lower().eq("true").sum())
+        bs_total = len(bs_col)
+        bs_rate_rewritten = (
+            float(bs_flagged_rewritten / bs_total * 100) if bs_total > 0 else 0.0
+        )
+
+        stats["bs_flagged_rewritten"] = bs_flagged_rewritten
+        stats["bs_rate_rewritten"] = bs_rate_rewritten
+
+    if "num_questionable" in data.columns:
+        nq = data["num_questionable"].dropna().astype(int)
+        total_questionable = int(nq.sum())
+        bs_flagged_non_rewritten = total_questionable - stats.get(
+            "bs_flagged_rewritten", 0
+        )
+        total_non_rewritten = stats["total"] * 9  # 9 other products per query
+        bs_rate_non_rewritten = (
+            float(bs_flagged_non_rewritten / total_non_rewritten * 100)
+            if total_non_rewritten > 0
+            else 0.0
+        )
+
+        stats["bs_flagged_non_rewritten"] = bs_flagged_non_rewritten
+        stats["bs_rate_non_rewritten"] = bs_rate_non_rewritten
+        stats["total_questionable"] = total_questionable
+
+    return stats
 
 
 def generate_histogram(
@@ -95,7 +129,6 @@ def generate_histogram(
 
     plt.legend()
 
-    # save figure to output path
     plt.tight_layout()
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
@@ -132,6 +165,19 @@ def print_summary(stats: dict, optimization_method: str = None):
     print(f"  Median: {stats['median']:.3f} positions")
     print(f"  Std Dev: {stats['std']:.3f}")
     print(f"  95% CI: [{stats['ci_lower']:.3f}, {stats['ci_upper']:.3f}]")
+
+    if "bs_flagged_rewritten" in stats:
+        print(f"\nBS Detection (Questionable Descriptions):")
+        print(
+            f"  Rewritten products flagged: {stats['bs_flagged_rewritten']} ({stats['bs_rate_rewritten']:.1f}%)"
+        )
+    if "bs_flagged_non_rewritten" in stats:
+        print(
+            f"  Non-rewritten products flagged: {stats['bs_flagged_non_rewritten']} ({stats['bs_rate_non_rewritten']:.1f}%)"
+        )
+        print(
+            f"  Total questionable across all products: {stats['total_questionable']}"
+        )
 
     print("\n" + "=" * 60 + "\n")
 

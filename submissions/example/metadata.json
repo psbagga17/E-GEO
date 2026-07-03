@@ -1,0 +1,20 @@
+{
+  "name": "Example Submission (GPT-4.1 + competitive)",
+  "type": "model+prompt",
+  "mode": "A: score provided rewrites",
+  "judges": [
+    "openai/gpt-5",
+    "anthropic/claude-sonnet-4.5",
+    "google/gemini-3-flash-preview",
+    "deepseek/deepseek-v3.2",
+    "meta-llama/llama-4-maverick"
+  ],
+  "description": "Example/template submission \u2014 replace with your own. GPT-4.1 rewriter with the optimized competitive prompt.",
+  "cost_per_rewrite_usd": null,
+  "query_blind": true,
+  "contact": "you@example.com",
+  "code_url": null,
+  "paper_url": null,
+  "run_config": null,
+  "is_paper_baseline": false
+}
