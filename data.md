@@ -10,9 +10,9 @@ The E-GEO dataset and all experiment artifacts are hosted on HuggingFace
 
 ```bash
 # dataset only (what submitters need):
-hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/*"
+uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/**"
 # everything (dataset + results):
-hf download psbagga17/E-GEO --repo-type dataset --local-dir .
+uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir .
 ```
 
 See the [paper](https://arxiv.org/abs/2511.20867) for dataset construction and methodology.
@@ -26,11 +26,12 @@ data/
 ├── queries_products.json                    # full corpus: 13,747 queries, each with 10 candidate products
 ├── test_data.json                           # 2,000 held-out test queries
 ├── test_selected_products.json              # per-test-query target product (index + metadata)
-├── test_initial_ranking_{model}.json        # each judge's ranking of the unmodified test candidates
 ├── train1000_val500.json                    # paper split: 1,500 queries (1,000 train / 500 val)
 ├── train_val_full.json                      # full non-test split: 11,747 queries (superset of the paper split)
-├── train_val_initial_ranking_{model}.json   # each judge's ranking of the unmodified train/val candidates
-└── train_selected_products.json             # per-train/val-query target product (index + metadata)
+├── train_selected_products.json             # per-train/val-query target product (index + metadata)
+└── initial_ranking/                         # cached per-judge "before" rankings (the runtime reads these)
+    ├── test_initial_ranking_{model}.json        # each judge's ranking of the unmodified test candidates
+    └── train_val_initial_ranking_{model}.json   # each judge's ranking of the unmodified train/val candidates
 ```
 
 `{model}` ∈ `{gpt41, gpt5, gemini, claude, deepseek, llama}`.
@@ -38,10 +39,10 @@ data/
 - **`queries_products.json`** — the full dataset: 13,747 query entries, each with its 10 retrieved candidate products.
 - **`test_data.json`** — the 2,000 fixed test queries (sampled from the corpus).
 - **`test_selected_products.json`** — for each test query, the target product to rewrite (its index `ind` plus metadata).
-- **`test_initial_ranking_{model}.json`** — each judge's ranking of the *unmodified* test candidates (the "before" positions used to score rank improvement).
+- **`initial_ranking/test_initial_ranking_{model}.json`** — each judge's ranking of the *unmodified* test candidates (the "before" positions used to score rank improvement). The 12 cached ranking files live under the `initial_ranking/` subfolder.
 - **`train1000_val500.json`** — the paper's training/validation split: 1,500 queries — rows 0–999 are the 1,000 train queries, rows 1000–1499 the 500 validation queries (disjoint). This is the optimizer's default.
 - **`train_val_full.json`** — the full non-test split: all 11,747 non-test queries (a superset that includes the paper split), provided for use beyond the paper. **Note:** the precomputed `train_val_initial_ranking_*` files cover a 2,000-query pool — the paper's 1,500 (rows 0–1499, same order as `train1000_val500.json`) plus 500 extra ranked-but-unused queries (rows 1500–1999) — **not** the full 11,747 set; optimizing beyond the pool requires generating initial rankings first.
-- **`train_val_initial_ranking_{model}.json`** — each judge's ranking of the unmodified train/val candidates (covers the 2,000-query pool above).
+- **`initial_ranking/train_val_initial_ranking_{model}.json`** — each judge's ranking of the unmodified train/val candidates (covers the 2,000-query pool above).
 - **`train_selected_products.json`** — per-train/val-query target product (index + metadata).
 
 ---

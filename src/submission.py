@@ -529,7 +529,10 @@ def main():
     config.DATA_DIR = data_dir
     llm_helpers.DATA_DIR = data_dir
     if not os.path.isfile(os.path.join(data_dir, "test_data.json")):
-        sys.exit(f"ERROR: dataset not found in {data_dir} — run `git lfs pull` first.")
+        sys.exit(
+            f"ERROR: dataset not found in {data_dir} — download it from HuggingFace first:\n"
+            '  uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/**"'
+        )
 
     judges = _parse_models(args.judges)
     rerank_models = _parse_models(args.rerank_model)

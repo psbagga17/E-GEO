@@ -55,6 +55,8 @@ See the [paper](https://arxiv.org/abs/2511.20867) for the full methodology and r
 
 ## Setup
 
+Requires [uv](https://docs.astral.sh/uv/) (the Python package manager used throughout).
+
 ```bash
 git clone https://github.com/psbagga17/E-GEO.git
 cd E-GEO
@@ -63,8 +65,8 @@ uv sync        # install dependencies (commands use `uv run`)
 # Download from HuggingFace. The dataset repo has two top-level folders:
 #   data/    — the dataset (splits, selected products, cached rankings, corpus)
 #   results/ — run-output artifacts, only needed to reproduce paper analyses/figures
-# Submitters need only data/ (~95 MB core + 292 MB corpus):
-uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/*"
+# Submitters need only data/ (~620 MB: ~90 MB core splits + rankings, 292 MB corpus, 240 MB full train pool):
+uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/**"
 # For full reproduction (adds the ~3 GB results/ trees), omit --include:
 uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir .
 ```

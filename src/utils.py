@@ -30,7 +30,6 @@ def extract_llm_text(resp):
             if isinstance(msg, dict):
                 content = msg.get("content")
                 if content:
-                    print("Extracted content from chat message.")
                     return content
 
             if "text" in choice and choice["text"]:
@@ -279,8 +278,7 @@ def parse_json_string(value):
 
     print("Failed to parse JSON string inside parse_json_string:", len(cleaned[:200]))
     new_cleaned = extract_json_object(value)
-    if new_cleaned != None:
-        print("BUT MANAGED TO DO IT SECOND TIME")
+    if new_cleaned is not None:
         return new_cleaned
     return value  # fallback — return original if parsing fails
 
@@ -337,53 +335,6 @@ def format_prompt_engine_matrix(matrix: Dict, prompts: Dict) -> str:
     return "\n".join(lines)
 
 
-def load_baseline_rankings(data_dir, engine_name):
-    """
-    Load per-engine baseline rankings from Tamar's JSON files.
-
-    Args:
-        data_dir: Path to final_data/ directory
-        engine_name: One of 'gpt4omini', 'claude', 'gemini', 'gpt5'
-                     OR engine label like 'Engine A'
-
-    Returns:
-        dict: {query_id_str: {"ranking": [...], "questionable_products": [...]}}
-    """
-    label_to_name = {
-        "Engine A": "gpt4omini",
-        "Engine B": "claude",
-        "Engine C": "gemini",
-        "Engine D": "gpt5",
-    }
-
-    if engine_name in label_to_name:
-        engine_name = label_to_name[engine_name]
-
-    for prefix in ["test_ranked_results", "train_val_ranked_results"]:
-        fpath = os.path.join(data_dir, f"{prefix}_{engine_name}.json")
-        if os.path.exists(fpath):
-            with open(fpath, "r") as f:
-                raw = json.load(f)
-
-            parsed = {}
-            for qid, entry in raw.items():
-                results_str = entry.get("results", "")
-                results_parsed = parse_json_string(results_str)
-                if isinstance(results_parsed, dict):
-                    parsed[qid] = results_parsed
-                else:
-                    print(
-                        f"WARNING: Could not parse results for query {qid} in {fpath}"
-                    )
-
-            print(f"Loaded {len(parsed)} baseline rankings from {fpath}")
-            return parsed
-
-    raise FileNotFoundError(
-        f"No baseline rankings file found for engine '{engine_name}' in {data_dir}"
-    )
-
-
 def format_cross_engine_history_v2(history: List[Dict]) -> str:
     """Format history with full prompt text and per-engine breakdown.
 
@@ -426,7 +377,6 @@ def format_cross_engine_history_v2(history: List[Dict]) -> str:
             )
             section += f"  Reasoning: {reasoning_preview}\n"
 
-    print("Formatted cross-engine history section:\n", section)
     return section
 
 

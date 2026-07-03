@@ -10,12 +10,14 @@ Evaluation runs **on your machine, on your own API keys**. You get on the public
 
 ## Setup
 
+Requires [uv](https://docs.astral.sh/uv/) (the Python package manager used throughout).
+
 ```bash
 git clone https://github.com/psbagga17/E-GEO.git
 cd E-GEO
 uv sync        # install dependencies (commands use `uv run`)
 # fetch the dataset from HuggingFace (submitters need only data/):
-uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/*"
+uv run hf download psbagga17/E-GEO --repo-type dataset --local-dir . --include "data/**"
 echo "OPENROUTER_API_KEY=sk-or-..." > .env
 ```
 
@@ -192,7 +194,7 @@ Every mode validates your input first and exits with a clear error before spendi
 | `--rewrites PATH` | **Mode A**: score these rewrites (mutually exclusive with `--prompt`). |
 | `--prompt KEY/PATH/TEXT` | **Mode B/C**: a method key, `optimized:<style>` (one of the 15 optimized prompts in `src/optimized_prompts.json`), a `.txt` path, or literal text containing `{description}` (mutually exclusive with `--rewrites`). |
 | `--name` | **Required.** Leaderboard row label (the unique key). |
-| `--type` | `model+prompt-name` (default), `fine-tuned`, or `agent`. |
+| `--type` | `model+prompt` (default), `fine-tuned`, or `agent`. |
 | `--description` | One-line description recorded in `metadata.json`. |
 | `--contact` | Contact (e.g. email) recorded in `metadata.json` |
 | `--code-url` / `--paper-url` | Optional links recorded in `metadata.json`. |

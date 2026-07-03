@@ -32,34 +32,34 @@ SYSTEM_PROMPTS = {
 # Keyed by model → split ("train" / "validation" / "test")
 INITIAL_RANKINGS = {
     "openai/gpt-4.1": {
-        "train": "train_val_initial_ranking_gpt41.json",
-        "validation": "train_val_initial_ranking_gpt41.json",
-        "test": "test_initial_ranking_gpt41.json",
+        "train": "initial_ranking/train_val_initial_ranking_gpt41.json",
+        "validation": "initial_ranking/train_val_initial_ranking_gpt41.json",
+        "test": "initial_ranking/test_initial_ranking_gpt41.json",
     },
     "openai/gpt-5": {
-        "train": "train_val_initial_ranking_gpt5.json",
-        "validation": "train_val_initial_ranking_gpt5.json",
-        "test": "test_initial_ranking_gpt5.json",
+        "train": "initial_ranking/train_val_initial_ranking_gpt5.json",
+        "validation": "initial_ranking/train_val_initial_ranking_gpt5.json",
+        "test": "initial_ranking/test_initial_ranking_gpt5.json",
     },
     "google/gemini-3-flash-preview": {
-        "train": "train_val_initial_ranking_gemini.json",
-        "validation": "train_val_initial_ranking_gemini.json",
-        "test": "test_initial_ranking_gemini.json",
+        "train": "initial_ranking/train_val_initial_ranking_gemini.json",
+        "validation": "initial_ranking/train_val_initial_ranking_gemini.json",
+        "test": "initial_ranking/test_initial_ranking_gemini.json",
     },
     "anthropic/claude-sonnet-4.5": {
-        "train": "train_val_initial_ranking_claude.json",
-        "validation": "train_val_initial_ranking_claude.json",
-        "test": "test_initial_ranking_claude.json",
+        "train": "initial_ranking/train_val_initial_ranking_claude.json",
+        "validation": "initial_ranking/train_val_initial_ranking_claude.json",
+        "test": "initial_ranking/test_initial_ranking_claude.json",
     },
     "deepseek/deepseek-v3.2": {
-        "train": "train_val_initial_ranking_deepseek.json",
-        "validation": "train_val_initial_ranking_deepseek.json",
-        "test": "test_initial_ranking_deepseek.json",
+        "train": "initial_ranking/train_val_initial_ranking_deepseek.json",
+        "validation": "initial_ranking/train_val_initial_ranking_deepseek.json",
+        "test": "initial_ranking/test_initial_ranking_deepseek.json",
     },
     "meta-llama/llama-4-maverick": {
-        "train": "train_val_initial_ranking_llama.json",
-        "validation": "train_val_initial_ranking_llama.json",
-        "test": "test_initial_ranking_llama.json",
+        "train": "initial_ranking/train_val_initial_ranking_llama.json",
+        "validation": "initial_ranking/train_val_initial_ranking_llama.json",
+        "test": "initial_ranking/test_initial_ranking_llama.json",
     },
 }
 

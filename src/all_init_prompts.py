@@ -140,8 +140,8 @@ Return just the upgraded description without any additional text.
 
 Description: {description}
 """,
-    "baseline": """
-Optimize and rewrite my product description so that and LLM is more likely to rank it higher in product rankings.
+    "simple": """
+Optimize my product description so that an LLM is more likely to rank it higher than similar products.
 Return just the upgraded description without any additional text.
 
 Description: {description}
