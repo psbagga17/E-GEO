@@ -2,7 +2,7 @@
 
 `src/submission.py` is the single command you run to score a submission against the five benchmark judges — **GPT-5, Claude Sonnet 4.5, Gemini 3 Flash Preview, DeepSeek V3.2, and Llama 4 Maverick**. It validates your input, picks one of three modes, estimates cost, and writes the files you submit. It's the only command you need — you never touch the rest of the code.
 
-Evaluation runs **on your machine, on your own API keys**. You get on the public leaderboard by **opening a pull request** that adds your results — there is no upload form and no login. **The PR *is* the submission — once the maintainers verify and merge, your results appear on the [leaderboard](https://github.com/psbagga17/E-GEO).**
+Evaluation runs **on your machine, on your own API keys**. You get on the public leaderboard by **opening a pull request** that adds your results — there is no upload form and no login. **The PR *is* the submission — once the maintainers verify and merge, your results appear on the [leaderboard](https://e-geo.netlify.app/).**
 
 > **Keys:** submitting needs only `OPENROUTER_API_KEY`
 

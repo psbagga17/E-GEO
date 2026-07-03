@@ -2,7 +2,7 @@
 
 **A testbed for Generative Engine Optimization in e-commerce.**
 
-[📄 Paper (arXiv:2511.20867)](https://arxiv.org/abs/2511.20867) · [🏆 Leaderboard](https://github.com/psbagga17/E-GEO) · [📦 Data (HuggingFace)](https://huggingface.co/datasets/psbagga17/E-GEO)
+[📄 Paper (arXiv:2511.20867)](https://arxiv.org/abs/2511.20867) · [🏆 Leaderboard](https://e-geo.netlify.app/) · [📦 Data (HuggingFace)](https://huggingface.co/datasets/psbagga17/E-GEO)
 
 > 🏆 **Want to submit to the leaderboard? → [submission.md](submission.md)**
 
@@ -29,7 +29,7 @@ As LLM **generative engines** (chatbots) increasingly stand in for search, a pro
 - **Reproduce the paper / run prompt optimization** — the research pipeline lives in `src/multi_model_optimization/` (see [How E-GEO works](#how-e-geo-works); parameters in [submission.md](submission.md#prompt-optimization-parameters-mode-c)).
 - **Use the optimized prompts out of the box** — the 15 best optimized rewriting prompts ship in `src/optimized_prompts.json`; run any of them with `--prompt optimized:<style>` (e.g. `optimized:competitive`) in a Mode B submission.
 - **Explore the data** — the 2,000-query test set, train/val split, per-model rankings, and all experiment results are hosted on HuggingFace. → **[data.md](data.md)**
-- **Browse the live leaderboard** — see how every submitted rewriter scores across the five judges. → **[website](https://github.com/psbagga17/E-GEO)**
+- **Browse the live leaderboard** — see how every submitted rewriter scores across the five judges. → **[website](https://e-geo.netlify.app/)**
 
 ---
 
