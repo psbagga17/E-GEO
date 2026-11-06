@@ -13,11 +13,11 @@
 As LLM **generative engines** (chatbots) increasingly stand in for search, a product's visibility depends less on classic SEO and more on what these engines choose to surface — what we call **generative engine optimization (GEO)**. E-commerce is a natural testbed: a generative shopping assistant returns a *ranked* list of products, so rank maps directly to clicks and revenue. **E-GEO studies that ranking step.** We frame GEO as a *rewriter* that edits a product's description to improve its rank — **without seeing the query, and without changing the product's facts** — and measure how far it moves a target product up the rankings of five LLM judges: GPT-5, Claude Sonnet 4.5, Gemini 3 Flash Preview, DeepSeek V3.2, and Llama 4 Maverick.
 
 <p align="center">
-  <img src="assets/GEO_in_e-commerce.png" width="760" alt="The GEO process: a rewriter edits a product's description to move it up the generative engine's ranking.">
+  <img src="assets/e_geo_overview.png" width="900" alt="E-GEO overview: a generative shopping engine retrieves candidate listings and an LLM re-ranker orders them; a GEO rewriter rewrites one listing and the same re-ranker orders the candidates again.">
 </p>
-<p align="center"><sub><em>The GEO process — a rewriter edits a product's description (Product E → E') to lift it from 4th to 1st in the generative engine's ranking, without changing the product's facts.</em></sub></p>
+<p align="center"><sub><em>Top: a generative shopping engine retrieves candidate listings for a user query, and an LLM re-ranker orders them. Bottom: a GEO rewriter rewrites one listing (Product E) without seeing the query and constrained to stay factual; the same re-ranker orders the same candidates again, and the rank improvement is the objective.</em></sub></p>
 
-**The dataset.** Unlike keyword-style retrieval datasets, E-GEO uses **long-form, natural-language shopping requests** rich with intent and constraints. It pairs **13,747 queries** (sourced from [r/BuyItForLife](https://www.reddit.com/r/BuyItForLife/) and filtered by an LLM pipeline) with **86,060 real products** from the Amazon Reviews 2023 corpus — **137,470 query–product pairs** in all, of which 2,000 queries are held out as the fixed test set. See the [paper](https://arxiv.org/abs/2511.20867) for the construction pipeline and [data.md](data.md) for file-level details.
+**The dataset.** Unlike keyword-style retrieval datasets, E-GEO uses **long-form, natural-language shopping requests** rich with intent and constraints. It pairs **13,746 queries** (sourced from [r/BuyItForLife](https://www.reddit.com/r/BuyItForLife/) and filtered by an LLM pipeline) with **86,057 real products** from the Amazon Reviews 2023 corpus — **137,460 query–product pairs** in all, of which 2,000 queries are held out as the fixed test set. See the [paper](https://arxiv.org/abs/2511.20867) for the construction pipeline and [data.md](data.md) for file-level details.
 
 **Scoring.** Each test query names one target product. A rewriter rewrites that product's description; each judge ranks it among its 10 candidates before and after, and we score `original rank − rewritten rank` (positions run 1 = top to 10 = bottom, so a **positive** score means the product moved up). We report mean improvement per judge.
 
@@ -45,7 +45,7 @@ The research pipeline (in `src/multi_model_optimization/`) includes:
 - **`leaderboard.py`** — every optimizer × ranker combination, producing the cross-model leaderboard.
 - **`reranking_prompts.py`** / **`reranking_claude_caching.py`** — rerank a fixed set of optimized products under any judge.
 - **`make_feature_heatmap.py`** — builds the initial-vs-optimized feature-presence heatmap (paper figure).
-- **`adversarial_benchmark.py`** — the heuristic 14-attack red-team benchmark (Section 6.1): rewrites each target under all 14 adversarial prompts and scores rank improvement vs. flag rate across the five judges.
+- **`adversarial_benchmark.py`** — the static 14-attack red-team benchmark (Section 5): rewrites each target under all 14 adversarial prompts and scores rank improvement vs. flag rate across the five judges.
 - **`llm_helpers.py`** — shared batched-LLM rewrite/rerank helpers used across the pipeline.
 - **`config.py`** is the single source of truth for the active model set, pricing, and token caps.
 
@@ -109,18 +109,28 @@ reproduce the paper); see **[data.md](data.md)** for the full layout and downloa
 
 ---
 
+## Acceptable use
+
+E-GEO, its code, and the released prompts are provided for controlled research
+on GEO, LLM re-ranking, and their safety and defenses. They must not be used for
+deceptive advertising, evading platform safeguards, or commercial deployment,
+and they must not be used to re-identify the source posts or their authors. The
+adversarial prompts and red-team optimizer are released to support defense
+research. If E-GEO is used for training rewriters, factuality of the rewriter
+must be retained as a constraint. The released re-ranker prompt includes a questionable-content clause.
+It is a minimal baseline, not a production defense.
+
+---
+
 ## Paper & citation
 
 - **Paper:** [E-GEO: A Testbed for Generative Engine Optimization in E-Commerce (arXiv:2511.20867)](https://arxiv.org/abs/2511.20867)
 
 ```bibtex
-@misc{bagga2025egeo,
-  title         = {E-GEO: A Testbed for Generative Engine Optimization in E-Commerce},
-  author        = {Puneet S. Bagga and Vivek F. Farias and Tamar Korkotashvili and Tianyi Peng and Yuhang Wu},
-  year          = {2025},
-  eprint        = {2511.20867},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.IR},
-  url           = {https://arxiv.org/abs/2511.20867}
+@inproceedings{bagga2026egeo,
+  title     = {E-GEO: A Testbed for Generative Engine Optimization in E-Commerce},
+  author    = {Bagga, Puneet S. and Farias, Vivek F. and Korkotashvili, Tamar and Peng, Tianyi and Wu, Yuhang},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS), Evaluations and Datasets Track},
+  year      = {2026}
 }
 ```
